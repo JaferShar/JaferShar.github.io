@@ -23,12 +23,15 @@ interface State {
   request: Request | null
   blocks: Partial<Record<PageId, THREE.Object3D>>
   hovered: PageId | null
+  /** Roboter als Punktwolke statt solide darstellen */
+  pointCloud: boolean
 
   setRobot: (r: URDFRobot) => void
   setLoaded: () => void
   registerBlock: (id: PageId, obj: THREE.Object3D | null) => void
   setHovered: (id: PageId | null) => void
   toggleInstant: () => void
+  togglePointCloud: () => void
   open: (page: PageId, instant?: boolean) => void
   close: (instant?: boolean) => void
 }
@@ -43,6 +46,7 @@ export const useStore = create<State>((set, get) => ({
   request: null,
   blocks: {},
   hovered: null,
+  pointCloud: false,
 
   setRobot: (robot) => set({ robot }),
   setLoaded: () => set({ loaded: true }),
@@ -55,10 +59,13 @@ export const useStore = create<State>((set, get) => ({
     }),
   setHovered: (hovered) => set({ hovered }),
   toggleInstant: () => set((s) => ({ instant: !s.instant })),
+  togglePointCloud: () => set((s) => ({ pointCloud: !s.pointCloud })),
 
   open: (page, instant) => {
     const s = get()
     if (s.busy || s.activePage === page) return
+    // Gleicher Auftrag wartet schon (z. B. Direktlink, während die Szene pausiert) – nicht überschreiben
+    if (s.request?.type === 'open' && s.request.page === page) return
     set({ request: { type: 'open', page, instant: instant ?? s.instant } })
   },
   close: (instant) => {

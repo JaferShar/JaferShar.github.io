@@ -283,6 +283,224 @@ a:hover {
   font-size: 11px;
 }
 
+/* ---------- Panel: Foto + Projekt-Vorschaubilder ---------- */
+.panel-photo {
+  margin: 0 0 1.25rem;
+}
+.panel-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 80%; /* Ausschnitt: etwas Himmel weg, Person bleibt im Bild */
+  border: 1px solid var(--line);
+  border-bottom: 2px solid var(--accent);
+}
+.panel-photo figcaption {
+  margin-top: 0.4rem;
+  font-size: 11px;
+  color: var(--dim);
+}
+.sec-thumb {
+  display: block;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.sec-thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.sec-thumb:hover img {
+  transform: scale(1.03);
+}
+
+/* ---------- Projekt-Detailseite ---------- */
+.project-page {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow-y: auto;
+  background: var(--bg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(2rem);
+  transition: opacity 0.35s, transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0.35s;
+}
+.project-page.open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.pp-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  background: rgba(15, 15, 16, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.pp-bar button {
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.65rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.pp-bar button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.pp-count {
+  color: var(--dim);
+}
+.pp-article {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.pp-meta {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.pp-article h1 {
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  line-height: 1.15;
+  margin: 0.6rem 0 1rem;
+}
+.pp-summary {
+  color: var(--dim);
+  font-size: 15px;
+  max-width: 40rem;
+  margin: 0 0 1rem;
+}
+.pp-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin: 0.75rem 0 0;
+  font-size: 13px;
+}
+.pp-cover {
+  margin: 2.5rem 0 1rem;
+}
+.pp-body h2 {
+  font-size: 13px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 3rem 0 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.pp-body p {
+  margin: 0 0 1rem;
+  max-width: 44rem;
+}
+.pp-figure {
+  margin: 1.5rem 0;
+}
+.pp-figure img,
+.pp-figure video,
+.pp-figure iframe {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #141416;
+}
+.pp-figure iframe {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+.pp-figure figcaption {
+  margin-top: 0.5rem;
+  font-size: 11px;
+  color: var(--dim);
+}
+.pp-zoom {
+  display: block;
+  width: 100%;
+  cursor: zoom-in;
+}
+.pp-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.pp-gallery .pp-figure {
+  margin: 0;
+}
+.pp-gallery img {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.pp-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 4rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+.pp-pager button {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+  font-weight: 700;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  transition: border-color 0.2s;
+}
+.pp-pager button:last-child {
+  text-align: right;
+  align-items: flex-end;
+}
+.pp-pager button span {
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--dim);
+}
+.pp-pager button:hover {
+  border-color: var(--accent);
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  background: rgba(8, 8, 9, 0.94);
+  cursor: zoom-out;
+}
+.lightbox img {
+  max-width: 92vw;
+  max-height: 84vh;
+  object-fit: contain;
+}
+.lightbox p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--dim);
+}
+
 /* ---------- Handy ---------- */
 @media (max-width: 720px) {
   .nav {
@@ -309,5 +527,15 @@ a:hover {
     width: auto;
     height: 62vh;
     transform: translateY(calc(100% + 2rem));
+  }
+  .pp-article {
+    padding: 2rem 1rem 4rem;
+  }
+  .pp-pager {
+    grid-template-columns: 1fr;
+  }
+  .pp-pager button:last-child {
+    text-align: left;
+    align-items: flex-start;
   }
 }

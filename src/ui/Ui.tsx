@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { PAGES, SITE } from '../content'
 import { useStore } from '../store'
 import { navigate } from '../navigation'
+import { asset } from '../asset'
 import { ARM_JOINTS } from '../robot/ik'
 
 /** Obere Leiste: Name + normale Navigation (für Besucher, die es eilig haben). */
@@ -9,6 +10,7 @@ export function Nav() {
   const instant = useStore((s) => s.instant)
   const docked = useStore((s) => s.docked)
   const busy = useStore((s) => s.busy)
+  const pointCloud = useStore((s) => s.pointCloud)
   return (
     <header className="nav">
       <button className="brand" onClick={() => navigate(null)}>
@@ -29,6 +31,9 @@ export function Nav() {
         ))}
         <button className={`toggle ${instant ? 'on' : ''}`} onClick={() => useStore.getState().toggleInstant()} title="Skip robot animation">
           {instant ? '>> FAST' : '~ ROBOT'}
+        </button>
+        <button className={`toggle ${pointCloud ? 'on' : ''}`} onClick={() => useStore.getState().togglePointCloud()} title="Toggle point cloud view">
+          {pointCloud ? '::: POINTS' : '### SOLID'}
         </button>
       </nav>
       {busy && <div className="busy" />}
@@ -69,7 +74,7 @@ export function Hint() {
   const busy = useStore((s) => s.busy)
   const loaded = useStore((s) => s.loaded)
   if (!loaded || docked || busy) return null
-  return <div className="hint">Click a block — the robot will place it in the drop zone</div>
+  return <div className="hint">Move the cursor to steer the arm — click a block to collect it</div>
 }
 
 export function Loader() {
@@ -103,10 +108,21 @@ export function Overlay() {
               [ x ] RETURN BLOCK
             </button>
           </div>
+          {page.photo && (
+            <figure className="panel-photo">
+              <img src={asset(page.photo.src)} alt={page.photo.alt} />
+              {page.photo.caption && <figcaption>{page.photo.caption}</figcaption>}
+            </figure>
+          )}
           <h1>{page.heading}</h1>
           <p className="intro">{page.intro}</p>
           {page.sections.map((s, i) => (
             <section key={i}>
+              {s.image && (
+                <a className="sec-thumb" href={s.link?.href.startsWith('#') ? s.link.href : undefined} tabIndex={-1}>
+                  <img src={asset(s.image)} alt="" loading="lazy" />
+                </a>
+              )}
               <div className="sec-head">
                 <h2>{s.title}</h2>
                 {s.meta && <span className="meta">{s.meta}</span>}
@@ -119,11 +135,14 @@ export function Overlay() {
                   ))}
                 </ul>
               )}
-              {s.link && (
-                <a href={s.link.href} target="_blank" rel="noreferrer">
-                  → {s.link.label}
-                </a>
-              )}
+              {s.link &&
+                (s.link.href.startsWith('#') ? (
+                  <a href={s.link.href}>→ {s.link.label}</a>
+                ) : (
+                  <a href={s.link.href} target="_blank" rel="noreferrer">
+                    → {s.link.label}
+                  </a>
+                ))}
             </section>
           ))}
         </>

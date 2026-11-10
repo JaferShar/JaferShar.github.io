@@ -3,11 +3,15 @@ import { Grid, OrbitControls } from '@react-three/drei'
 import { Robot } from '../robot/Robot'
 import { Blocks } from './Blocks'
 import { Portal } from './Portal'
+import { CursorControl } from './CursorControl'
+import { useRoute } from '../navigation'
 import { CameraRig, CAMERA_TARGET } from './CameraRig'
 
 export function Scene() {
+  // Solange eine Projektseite offen ist, verdeckt sie die Szene komplett → Rendering pausieren
+  const { project } = useRoute()
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ fov: 32, near: 0.01, far: 20, position: [0, 0.45, 0.65] }}>
+    <Canvas shadows dpr={[1, 2]} frameloop={project ? 'never' : 'always'} camera={{ fov: 32, near: 0.01, far: 20, position: [0, 0.45, 0.65] }}>
       <color attach="background" args={['#0f0f10']} />
       <fog attach="fog" args={['#0f0f10', 1.4, 3.2]} />
       <CameraRig />
@@ -49,6 +53,7 @@ export function Scene() {
       <Robot />
       <Blocks />
       <Portal />
+      <CursorControl />
 
       <OrbitControls
         target={CAMERA_TARGET}

@@ -3,7 +3,6 @@ import { Text } from '@react-three/drei'
 import * as THREE from 'three'
 import { PAGES } from '../content'
 import { useStore } from '../store'
-import { navigate } from '../navigation'
 import { BLOCK_SIZE, RING_RADIUS, SLOTS, polar } from './layout'
 import { FONT_BOLD, FONT_REGULAR } from './fonts'
 
@@ -12,7 +11,6 @@ function Block({ index }: { index: number }) {
   const page = PAGES.find((p) => p.id === slot.page)!
   const ref = useRef<THREE.Group>(null)
   const hovered = useStore((s) => s.hovered === page.id)
-  const docked = useStore((s) => s.docked === page.id)
 
   // Position nur EINMAL setzen – danach bewegt der Roboter den Block imperativ.
   useLayoutEffect(() => {
@@ -25,22 +23,8 @@ function Block({ index }: { index: number }) {
   }, [page.id, slot])
 
   return (
-    <group
-      ref={ref}
-      onPointerOver={(e) => {
-        e.stopPropagation()
-        useStore.getState().setHovered(page.id)
-        document.body.style.cursor = 'pointer'
-      }}
-      onPointerOut={() => {
-        useStore.getState().setHovered(null)
-        document.body.style.cursor = ''
-      }}
-      onClick={(e) => {
-        e.stopPropagation()
-        navigate(docked ? null : page.id)
-      }}
-    >
+    // Hover + Klick laufen über CursorControl (Nähe zum Greiferziel statt Mesh-Treffer)
+    <group ref={ref}>
       <mesh castShadow receiveShadow>
         <boxGeometry args={[BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE]} />
         <meshStandardMaterial

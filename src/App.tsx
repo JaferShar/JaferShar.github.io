@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Scene } from './scene/Scene'
 import { Hint, Hud, Loader, Nav, Overlay } from './ui/Ui'
+import { ProjectPage } from './ui/ProjectPage'
 import { useStore } from './store'
 import { initNavigation } from './navigation'
 
@@ -16,6 +17,7 @@ export default function App() {
       <Hud />
       <Hint />
       <Overlay />
+      <ProjectPage />
       <Loader />
     </>
   )
