@@ -388,6 +388,11 @@ export const PAGES: Page[] = [
         text: 'Driving-test preparation app, founded with two friends.',
       },
       {
+        title: 'Intern, Anomaly Detection in Manufacturing',
+        meta: '05/2024 - 11/2024',
+        text: 'Bosch, Bühl (hybrid). Worked on vision models that detect anomalies in manufacturing zero-shot, without needing examples of the defects first.',
+      },
+      {
         title: 'Skills',
         tags: ['Java', 'TypeScript', 'Python', 'C#', 'Angular', 'Unity', 'ROS 2', 'YOLO', 'Docker', 'MongoDB', 'Flutter', 'Git'],
       },
