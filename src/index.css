@@ -448,6 +448,13 @@ a:hover {
   aspect-ratio: 16 / 10;
   object-fit: cover;
 }
+/* Hochformat (Handy-Screenshots): schmalere Spalten, Bild ungeschnitten */
+.pp-gallery--portrait {
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+}
+.pp-gallery--portrait img {
+  aspect-ratio: auto;
+}
 .pp-pager {
   display: grid;
   grid-template-columns: 1fr 1fr;

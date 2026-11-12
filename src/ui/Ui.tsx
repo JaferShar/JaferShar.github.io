@@ -74,7 +74,7 @@ export function Hint() {
   const busy = useStore((s) => s.busy)
   const loaded = useStore((s) => s.loaded)
   if (!loaded || docked || busy) return null
-  return <div className="hint">Move the cursor to steer the arm — click a block to collect it</div>
+  return <div className="hint">Move the cursor to steer the arm, then click a block to collect it</div>
 }
 
 export function Loader() {

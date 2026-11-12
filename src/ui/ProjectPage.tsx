@@ -27,7 +27,7 @@ export function ProjectPage() {
     if (!open) return
     scroller.current?.scrollTo({ top: 0 })
     const prev = document.title
-    document.title = `${PROJECTS[index].title} — ${SITE.name}`
+    document.title = `${PROJECTS[index].title} · ${SITE.name}`
     return () => {
       document.title = prev
     }
@@ -133,7 +133,7 @@ function Block({ block, onOpen }: { block: ProjectBlock; onOpen: (m: Media) => v
       return <Figure media={block.image} onOpen={onOpen} />
     case 'gallery':
       return (
-        <div className="pp-gallery">
+        <div className={block.portrait ? 'pp-gallery pp-gallery--portrait' : 'pp-gallery'}>
           {block.images.map((m) => (
             <Figure key={m.src} media={m} onOpen={onOpen} />
           ))}
@@ -150,7 +150,13 @@ function Block({ block, onOpen }: { block: ProjectBlock; onOpen: (m: Media) => v
               allowFullScreen
             />
           ) : (
-            <video src={asset(block.src)} controls playsInline preload="metadata" />
+            <video
+              src={asset(block.src)}
+              poster={block.poster ? asset(block.poster) : undefined}
+              controls
+              playsInline
+              preload="metadata"
+            />
           )}
           {block.caption && <figcaption>{block.caption}</figcaption>}
         </figure>
